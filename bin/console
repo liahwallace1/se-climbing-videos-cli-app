@@ -2,7 +2,7 @@
 
 require "bundler/setup"
 require "se_climbing_videos"
-
+require './lib/environment'
 # You can add fixtures and/or initialization code here to make experimenting
 # with your gem easier. You can also use a different console, if you like.
 
@@ -11,4 +11,5 @@ require "se_climbing_videos"
 # Pry.start
 
 require "irb"
+puts "Welcome to sandbox!"
 IRB.start
