@@ -3,7 +3,7 @@
 class SeClimbingVideos::CLI
 
   def call
-    puts "Welcome to SE Climbing Videos. This is a way to find the newest videos uploaded on Vimeo, Youtube, and DPMClimbing for your favorite Southeast Bouldering spot."
+    puts "Welcome to SE Climbing Videos. This is a way to find the newest videos uploaded on Vimeo and Youtube for your favorite Southeast Bouldering spot."
     select_location
     select_time
     new_selection
@@ -19,8 +19,8 @@ class SeClimbingVideos::CLI
     puts "4. Rocktown, GA"
     puts "5. Rumbling Bald, NC"
     puts "6. Stone Fort (LRC), TN"
-    location = gets.strip.downcase
-    case location
+    @location = gets.strip.downcase
+    case @location
       when "1"
         puts "Execute search on Boone, NC"
       when "2"
@@ -51,8 +51,8 @@ class SeClimbingVideos::CLI
     puts "4. six months ago"
     puts "5. one year ago"
     puts "6. forever"
-    time = gets.strip.downcase
-    case time
+    @time = gets.strip.downcase
+    case @time
       when "1"
         puts "Provide videos uploaded in the past week"
       when "2"
