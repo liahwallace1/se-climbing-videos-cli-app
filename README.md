@@ -1,6 +1,6 @@
 # SeClimbingVideos
 
-The Southeast Climbing Videos gem will help you find the newest videos uploaded on Vimeo, Youtube, and DPMClimbing for your favorite Southeast Bouldering spot by providing a list of videos by location and upload date. You can keep up with new videos at your favorite southeast bouldering location by checking back often!
+The Southeast Climbing Videos gem will help you find the newest videos uploaded on Vimeo and Youtube for your favorite Southeast Bouldering spot by providing a list of videos by location and upload date. You can keep up with new videos at your favorite southeast bouldering location by checking back often!
 
 
 ## Installation

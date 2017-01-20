@@ -9,9 +9,9 @@ Gem::Specification.new do |spec|
   spec.authors       = ["'Liah Wallace'"]
   spec.email         = ["'liahwallace1@gmail.com'"]
 
-  spec.summary       = %q{TODO: Write a short summary, because Rubygems requires one.}
-  spec.description   = %q{TODO: Write a longer description or delete this line.}
-  spec.homepage      = "TODO: Put your gem's website or public repo URL here."
+  spec.summary       = %q{TODO: Southeast bouldering video aggregator.}
+  spec.description   = %q{TODO: The Southeast Climbing Videos gem will help you find the newest videos uploaded on Vimeo and Youtube for your favorite Southeast Bouldering spot by providing a list of videos by location and upload date.}
+  spec.homepage      = "TODO: https://github.com/liahwallace1/se-climbing-videos-cli-app"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
