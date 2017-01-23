@@ -54,7 +54,7 @@ class SeClimbingVideos::CLI
   def list_videos
     @videos = SeClimbingVideos::Video.recent_videos
     @videos.each.with_index(1) do |video, i|
-      puts "#{i}. #{video}"
+      puts "#{i}. #{video.name} - #{video.upload_user} - #{video.upload_date}"
     end
   end
 
