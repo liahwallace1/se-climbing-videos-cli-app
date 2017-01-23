@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
 
-require './lib/environment'
+require_relative '../lib/se_climbing_videos'
 
 SeClimbingVideos::CLI.new.call
