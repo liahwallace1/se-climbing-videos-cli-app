@@ -6,11 +6,11 @@ require 'se_climbing_videos/version'
 Gem::Specification.new do |spec|
   spec.name          = "se_climbing_videos"
   spec.version       = SeClimbingVideos::VERSION
-  spec.authors       = ["'Liah Wallace'"]
-  spec.email         = ["'liahwallace1@gmail.com'"]
+  spec.authors       = ["Liah Wallace"]
+  spec.email         = ["liahwallace1@gmail.com"]
 
-  spec.summary       = %q{Southeast bouldering video aggregator.}
-  spec.description   = %q{The Southeast Climbing Videos gem will help you find the newest videos uploaded on Vimeo and Youtube for your favorite Southeast Bouldering spot by providing a list of videos by location and upload date.}
+  spec.summary       = "Southeast bouldering video aggregator."
+  spec.description   = "The Southeast Climbing Videos gem will help you find the newest videos uploaded on Vimeo and Youtube for your favorite Southeast Bouldering spot by providing a list of videos by location and upload date."
   spec.homepage      = "https://github.com/liahwallace1/se-climbing-videos-cli-app"
   spec.license       = "MIT"
 
@@ -32,4 +32,8 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "bundler", "~> 1.13"
   spec.add_development_dependency "rake", "~> 10.0"
+  spec.add_development_dependency "nokogiri", ">=0"
+  spec.add_development_dependency "open-uri", ">=0"
+  spec.add_development_dependency "pry", ">=0"
+  spec.add_development_dependency "rspec", ">=0"
 end
