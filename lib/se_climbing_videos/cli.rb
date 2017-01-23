@@ -6,8 +6,10 @@ class SeClimbingVideos::CLI
     puts "Welcome to SE Climbing Videos. This is a way to find the newest videos uploaded on Vimeo and Youtube for your favorite Southeast Bouldering spot."
     select_location
     list_videos
+    select_video
   #  select_time
-    new_selection
+    select_new_video
+    select_new_location
     goodbye
   end
 
@@ -51,36 +53,39 @@ class SeClimbingVideos::CLI
 
   def list_videos
     @videos = SeClimbingVideos::Video.recent_videos
+    @videos.each.with_index(1) do |video, i|
+      puts "#{i}. #{video}"
+    end
   end
 
   def select_video
     puts "Please select which video from the list you would like to learn more about:"
     video_input = gets.strip
-    while video_input != "exit"
-      if video_input.to_i > 0
-        puts @video[video_input.to_i-1]
-      elsif video_input == "list"
-        list_videos
-      else
-        puts "Not sure which video you want to see more about, type list number or exit."
-        select_video
-      end
+
+    if video_input.to_i > 0
+      puts "more info about video #{video_input}"
+    elsif video_input == "list"
+      list_videos
+    else
+      puts "Not sure which video you want to see more about, type list number or exit."
+      list_videos
+      select_video
     end
   end
 
-  def new_video_selection
+  def select_new_video
     puts "Would you like to select another video from the list? (Y/N)"
     input = gets.strip.upcase
     case input
       when "Y"
+        list_videos
         select_video
-        new_video_selection
+        select_new_video
       when "N"
-        goodbye
-        exit
+        select_new_location
       else
         "Please enter Y to search more videos or N to exit"
-        new_video_selection
+        select_new_video
     end
   end
 
@@ -116,20 +121,23 @@ class SeClimbingVideos::CLI
 #    end
 #  end
 
-  def new_location_selection
+  def select_new_location
     puts "Would you like to search for videos in a different location? (Y/N)"
     input = gets.strip.upcase
     case input
       when "Y"
         select_location
         select_time
-        new_location_selection
+        list_videos
+        select_video
+        select_new_video
+        select_new_location
       when "N"
         goodbye
         exit
       else
         "Please enter Y to search more videos or N to exit"
-        new_location_selection
+        select_new_location
     end
   end
 

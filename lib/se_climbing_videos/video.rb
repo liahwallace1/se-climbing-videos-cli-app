@@ -15,7 +15,8 @@ class SeClimbingVideos::Video
   def self.recent_videos
     #should return list of latest 20 videos from each location
     #to test
-    puts "This is a list of the latest videos"
+    ["1. Boone vid", "2. Boone vid 2"]
+    #Need to iterate over videos and set up name, location, upload_user, upload_date
   end
 
 end
