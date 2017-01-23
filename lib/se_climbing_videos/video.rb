@@ -12,4 +12,10 @@ class SeClimbingVideos::Video
     self.all.collect! {|video| video.location == location_name}
   end
 
+  def self.recent_videos
+    #should return list of latest 20 videos from each location
+    #to test
+    puts "This is a list of the latest videos"
+  end
+
 end

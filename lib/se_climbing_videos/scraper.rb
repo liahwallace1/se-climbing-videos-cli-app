@@ -13,7 +13,7 @@ class SeClimbingVideos::Scraper
   def get_videos_youtube
     self.get_page.css("li.div.yt-lockup-video")
   end
-binding.pry
+
   def get_videos_vimeo
     self.get_page.css()
   end
