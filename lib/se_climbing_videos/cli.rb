@@ -29,34 +29,40 @@ class SeClimbingVideos::CLI
     location_input = gets.strip
     case location_input
       when "1"
-#        @location = "Boone, NC"
+        make_videos(:boone)
+        add_attributes_to_videos
+        list_20_videos(:boone)
         puts "Search results for Boone, NC"
-        make_videos(:boone))
       when "2"
-#        @location = "Grayson Highlands, VA"
-        puts "Search results for Grayson Highlands, VA"
         make_videos(:grayson_highlands)
+        add_attributes_to_videos
+        list_20_videos(:grayson_highlands)
+        puts "Search results for Grayson Highlands, VA"
       when "3"
-#        @location = "Horse Pens 40, AL"
-        puts "Search results for Horse Pens 40, AL"
         make_videos(:horse_pens_40)
+        add_attributes_to_videos
+        list_20_videos(:horse_pens_40)
+        puts "Search results for Horse Pens 40, AL"
       when "4"
-#        @location = "Rocktown, GA"
-        puts "Search results for Rocktown, GA"
         make_videos(:rocktown)
+        add_attributes_to_videos
+        list_20_videos(:rocktown)
+        puts "Search results for Rocktown, GA"
       when "5"
-#        @location = "Rumbling Bald, NC"
-        puts "Search results for Rumbling Bald, NC"
         make_videos(:rumbling_bald)
+        add_attributes_to_videos
+        list_20_videos(:rumbling_bald)
+        puts "Search results for Rumbling Bald, NC"
       when "6"
-#        @location = "Stone Fort (LRC), TN"
-        puts "Search results for Stone Fort (LRC), TN"
         make_videos(:stone_fort)
+        add_attributes_to_videos
+        list_20_videos(:stone_fort)
+        puts "Search results for Stone Fort (LRC), TN"
       when "exit"
         goodbye
         exit
       else
-        puts "Please enter a valid number. If you don't see your favorite location, send us an email so we can update the app!"
+        puts "Please enter a valid number. If you don't see your favorite location, send me an email so I can update the app!"
         select_location
     end
   end
@@ -80,29 +86,34 @@ class SeClimbingVideos::CLI
     end
   end
 
-#  def list_videos
-#    @video_array = SeClimbingVideos::Video.recent_videos
-#    @videos.each.with_index(1) do |video, i|
-#      puts "#{i}. #{video.name} - #{video.upload_user} - #{video.upload_date}"
-#    end
-#  end
-#
-  def display_video
+  def list_20_videos(location)
+    #want this list to only include videos at certain location. Need to figure out how to set location attribute before this will work. Also how to do dates. Sort should have latest date first in array.
+    @list_videos = SeClimbingVideos::Video.all_at_location_by_date(location)
+    @list_videos.each.with_index(1) do |video, i|
+      if i < 21
+      puts "#{i}. #{video.name} - #{video.upload_user} - #{video.upload_date}"
+      end
+    end
+  end
+
+  def select_video
     puts "Please select which video from the list you would like to learn more about:"
-    video_input = gets.strip
+    video_input = gets.strip.to_i
 
     if video_input.to_i > 0
-      puts "more info about video #{video_input}"
-    elsif video_input == "list"
-      list_videos
+      index = video_input - 1
+      display_video(index)
     else
       puts "Not sure which video you want to see more about, type list number or exit."
-      list_videos
       select_video
     end
   end
 
-  def display_new_video
+  def display_video(index)
+    @list_videos = SeClimbingVideos::Video.all_at_location_by_date(location)
+  end
+
+  def select_new_video
     puts "Would you like to select another video from the list? (Y/N)"
     input = gets.strip.upcase
     case input
