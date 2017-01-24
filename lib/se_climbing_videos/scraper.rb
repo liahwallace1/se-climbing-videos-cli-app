@@ -11,7 +11,7 @@ class SeClimbingVideos::Scraper
 #    Nokogiri::HTML(open(@webpage))
 #  end
 
-  def self.get_videos_youtube
+  def self.scrape_youtube_list
     doc = Nokogiri::HTML(open(@youtube_url))
 
     doc.css("div.yt-lockup-content").collect do |item|
@@ -20,11 +20,10 @@ class SeClimbingVideos::Scraper
       video.upload_user = doc.search("div.yt-lockup-byline").text
       video.duration = doc.search("span.accessible-description").text.gsub(" - Duration: ", "").gsub(".", "")
       video.video_url = "https://www.youtube.com" +  doc.search("a.yt-uix-tile-link").attr("href").value
-
     end
   end
 
-  def self.get_description_youtube
+  def self.scrape_youtube_video
 
     description_doc = Nokogiri::HTML(open(video_url))
     video.description = description_doc.search("#eow-description").text
@@ -32,15 +31,23 @@ class SeClimbingVideos::Scraper
   end
 
 
-  def self.get_videos_vimeo
-    sdoc = Nokogiri::HTML(open(@vimeo_url))
+  def self.scrape_vimeo_list
+    doc = Nokogiri::HTML(open("http://vimeo.com/search/sort:latest?q=boone+nc+bouldering"))
 
-    doc.css("").each do |item|
+    doc.css("div.iris_video-vital").collect do |item|
       video = SeClimbingVideos::Video.new
-      video.name = doc.search("").text
-      video.upload_user = doc.search("").text
-      video.upload_date = doc.search("").text
+      video.name = doc.search("span.iris_link-header").text
+      video.upload_user = doc.search("a.iris_userinfo").text
+      video.video_url = doc.search("a.iris_video-vital__overlay").attr("href").value
+      video.duration = doc.search("span.iris_annotation__duration").text
     end
+  end
+
+  def self.scrape_vimeo_video
+
+    description_doc = Nokogiri::HTML(open(video_url))
+    video.description = description_doc.search("p.first").text
+    video.upload_date = description_doc.search("time.clip-time").text.split(" ")
   end
 
 #  def scrape_videos

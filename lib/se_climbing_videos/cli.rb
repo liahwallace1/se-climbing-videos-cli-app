@@ -6,11 +6,15 @@ class SeClimbingVideos::CLI
 
   def call
     puts "Welcome to SE Climbing Videos. This is a way to find the newest videos uploaded on Vimeo and Youtube for your favorite Southeast Bouldering spot."
+    start
+  end
+
+  def start
     select_location
     list_videos
-    select_video
+    display_video
   #  select_time
-    select_new_video
+    display_new_video
     select_new_location
     goodbye
   end
@@ -28,27 +32,27 @@ class SeClimbingVideos::CLI
     case location_input
       when "1"
         @location = "Boone, NC"
-        puts "Execute search on Boone, NC"
+        puts "Executing search on Boone, NC"
         #SeClimbingVideos::Scraper.new("https://www.youtube.com/results?sp=CAI%253D&q=Boone+NC+bouldering", "https://vimeo.com/search/sort:latest?q=Boone%2C+NC+bouldering")
       when "2"
         @location = "Grayson Highlands, VA"
-        puts "Execute search on Grayson Highlands, VA"
+        puts "Executing search on Grayson Highlands, VA"
         #SeClimbingVideos::Scraper.new("https://www.youtube.com/results?q=Grayson+Highlands+bouldering&sp=CAI%253D", "https://vimeo.com/search/sort:latest?q=Grayson+Highlands+bouldering")
       when "3"
         @location = "Horse Pens 40, AL"
-        puts "Execute search on Horse Pens 40, AL"
+        puts "Executing search on Horse Pens 40, AL"
         #SeClimbingVideos::Scraper.new("https://www.youtube.com/results?q=horse+pens+40+bouldering&sp=CAI%253D", "https://vimeo.com/search/sort:latest?q=Horse+Pens+40+bouldering")
       when "4"
         @location = "Rocktown, GA"
-        puts "Execute search on Rocktown, GA"
+        puts "Executing search on Rocktown, GA"
         #SeClimbingVideos::Scraper.new("https://www.youtube.com/results?q=Rocktown+bouldering&sp=CAI%253D", "https://vimeo.com/search/sort:latest?q=Rocktown+bouldering")
       when "5"
         @location = "Rumbling Bald, NC"
-        puts "Execute search on Rumbling Bald, NC"
+        puts "Executing search on Rumbling Bald, NC"
         #SeClimbingVideos::Scraper.new("https://www.youtube.com/results?q=rumbling+bald+bouldering&sp=CAI%253D", "https://vimeo.com/search/sort:latest?q=rumbling+bald+bouldering")
       when "6"
         @location = "Stone Fort (LRC), TN"
-        puts "Execute search on Stone Fort (LRC), TN"
+        puts "Executing search on Stone Fort (LRC), TN"
         #SeClimbingVideos::Scraper.new("https://www.youtube.com/results?sp=CAI%253D&q=Stone+Fort+LRC+bouldering", "https://vimeo.com/search/sort:latest?q=stone+fort+lrc+bouldering")
       when "exit"
         goodbye
@@ -66,7 +70,7 @@ class SeClimbingVideos::CLI
     end
   end
 
-  def select_video
+  def display_video
     puts "Please select which video from the list you would like to learn more about:"
     video_input = gets.strip
 
@@ -81,19 +85,19 @@ class SeClimbingVideos::CLI
     end
   end
 
-  def select_new_video
+  def display_new_video
     puts "Would you like to select another video from the list? (Y/N)"
     input = gets.strip.upcase
     case input
       when "Y"
         list_videos
-        select_video
-        select_new_video
+        display_video
+        display_new_video
       when "N"
         select_new_location
       else
         "Please enter Y to search more videos or N to exit"
-        select_new_video
+        display_new_video
     end
   end
 
@@ -134,12 +138,7 @@ class SeClimbingVideos::CLI
     input = gets.strip.upcase
     case input
       when "Y"
-        select_location
-        select_time
-        list_videos
-        select_video
-        select_new_video
-        select_new_location
+        start
       when "N"
         goodbye
         exit
