@@ -4,6 +4,14 @@ class SeClimbingVideos::Video
 
   @@all = []
 
+  def initialize(@name=nil, @location=nil, @upload_date=nil, @upload_user=nil)
+    @name = name
+    @location = SeClimbingVideos::CLI.location
+    @upload_date = upload_date
+    @upload_user = upload_user
+    @@all << self
+  end
+
   def self.all
     @@all
   end
