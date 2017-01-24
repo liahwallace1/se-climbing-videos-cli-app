@@ -2,6 +2,8 @@
 
 class SeClimbingVideos::CLI
 
+  attr_accessor :location, :videos
+
   def call
     puts "Welcome to SE Climbing Videos. This is a way to find the newest videos uploaded on Vimeo and Youtube for your favorite Southeast Bouldering spot."
     select_location
@@ -27,21 +29,27 @@ class SeClimbingVideos::CLI
       when "1"
         @location = "Boone, NC"
         puts "Execute search on Boone, NC"
+        #SeClimbingVideos::Scraper.new("https://www.youtube.com/results?sp=CAI%253D&q=Boone+NC+bouldering", "https://vimeo.com/search/sort:latest?q=Boone%2C+NC+bouldering")
       when "2"
         @location = "Grayson Highlands, VA"
         puts "Execute search on Grayson Highlands, VA"
+        #SeClimbingVideos::Scraper.new("https://www.youtube.com/results?q=Grayson+Highlands+bouldering&sp=CAI%253D", "https://vimeo.com/search/sort:latest?q=Grayson+Highlands+bouldering")
       when "3"
         @location = "Horse Pens 40, AL"
         puts "Execute search on Horse Pens 40, AL"
+        #SeClimbingVideos::Scraper.new("https://www.youtube.com/results?q=horse+pens+40+bouldering&sp=CAI%253D", "https://vimeo.com/search/sort:latest?q=Horse+Pens+40+bouldering")
       when "4"
         @location = "Rocktown, GA"
         puts "Execute search on Rocktown, GA"
+        #SeClimbingVideos::Scraper.new("https://www.youtube.com/results?q=Rocktown+bouldering&sp=CAI%253D", "https://vimeo.com/search/sort:latest?q=Rocktown+bouldering")
       when "5"
         @location = "Rumbling Bald, NC"
         puts "Execute search on Rumbling Bald, NC"
+        #SeClimbingVideos::Scraper.new("https://www.youtube.com/results?q=rumbling+bald+bouldering&sp=CAI%253D", "https://vimeo.com/search/sort:latest?q=rumbling+bald+bouldering")
       when "6"
         @location = "Stone Fort (LRC), TN"
         puts "Execute search on Stone Fort (LRC), TN"
+        #SeClimbingVideos::Scraper.new("https://www.youtube.com/results?sp=CAI%253D&q=Stone+Fort+LRC+bouldering", "https://vimeo.com/search/sort:latest?q=stone+fort+lrc+bouldering")
       when "exit"
         goodbye
         exit
