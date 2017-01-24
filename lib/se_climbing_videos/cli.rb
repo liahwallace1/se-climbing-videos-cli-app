@@ -2,35 +2,6 @@
 
 class SeClimbingVideos::CLI
 
-  attr_accessor :location, :videos
-
-  SEARCH_LINKS = {
-    :boone => {
-      youtube: "https://www.youtube.com/results?sp=CAI%253D&q=Boone+NC+bouldering",
-      vimeo: "https://vimeo.com/search/sort:latest?q=Boone%2C+NC+bouldering"
-    },
-    :grayson_highlands => {
-      youtube: "https://www.youtube.com/results?q=Grayson+Highlands+bouldering&sp=CAI%253D",
-      vimeo: "https://vimeo.com/search/sort:latest?q=Grayson+Highlands+bouldering"
-    },
-    :horse_pens_40 => {
-      youtube: "https://www.youtube.com/results?q=horse+pens+40+bouldering&sp=CAI%253D",
-      vimeo: "https://vimeo.com/search/sort:latest?q=Horse+Pens+40+bouldering"
-    },
-    :rocktown => {
-      youtube: "https://www.youtube.com/results?q=Rocktown+bouldering&sp=CAI%253D",
-      vimeo: "https://vimeo.com/search/sort:latest?q=Rocktown+bouldering"
-    },
-    :rumbling_bald => {
-      youtube: "https://www.youtube.com/results?q=rumbling+bald+bouldering&sp=CAI%253D",
-      vimeo: "https://vimeo.com/search/sort:latest?q=rumbling+bald+bouldering"
-    },
-    :stone_fort => {
-      youtube: "https://www.youtube.com/results?sp=CAI%253D&q=Stone+Fort+LRC+bouldering",
-      vimeo: "https://vimeo.com/search/sort:latest?q=stone+fort+lrc+bouldering"
-    }
-  }
-
   def call
     puts "Welcome to SE Climbing Videos. This is a way to find the newest videos uploaded on Vimeo and Youtube for your favorite Southeast Bouldering spot."
     start
@@ -58,29 +29,29 @@ class SeClimbingVideos::CLI
     location_input = gets.strip
     case location_input
       when "1"
-        @location = "Boone, NC"
+#        @location = "Boone, NC"
         puts "Search results for Boone, NC"
-        video_search(:boone))
+        make_videos(:boone))
       when "2"
-        @location = "Grayson Highlands, VA"
+#        @location = "Grayson Highlands, VA"
         puts "Search results for Grayson Highlands, VA"
-        video_search(:grayson_highlands)
+        make_videos(:grayson_highlands)
       when "3"
-        @location = "Horse Pens 40, AL"
+#        @location = "Horse Pens 40, AL"
         puts "Search results for Horse Pens 40, AL"
-        video_search(:horse_pens_40)
+        make_videos(:horse_pens_40)
       when "4"
-        @location = "Rocktown, GA"
+#        @location = "Rocktown, GA"
         puts "Search results for Rocktown, GA"
-        video_search(:rocktown)
+        make_videos(:rocktown)
       when "5"
-        @location = "Rumbling Bald, NC"
+#        @location = "Rumbling Bald, NC"
         puts "Search results for Rumbling Bald, NC"
-        video_search(:rumbling_bald)
+        make_videos(:rumbling_bald)
       when "6"
-        @location = "Stone Fort (LRC), TN"
+#        @location = "Stone Fort (LRC), TN"
         puts "Search results for Stone Fort (LRC), TN"
-        video_search(:stone_fort)
+        make_videos(:stone_fort)
       when "exit"
         goodbye
         exit
@@ -90,11 +61,11 @@ class SeClimbingVideos::CLI
     end
   end
 
-  def video_search(location)
+  def make_videos(location)
     youtube_array = SeClimbingVideos::Scraper.scrape_youtube_list(SEARCH_LINKS[location][:youtube])
     vimeo_array = SeClimbingVideos::Scraper.scrape_vimeo_list(SEARCH_LINKS[location][:vimeo])
-    @video_array = youtube_array + vimeo_array
-    SeClimbingVideos::Video.create_from_collection(@video_array)
+    video_array = youtube_array + vimeo_array
+    SeClimbingVideos::Video.create_from_collection(video_array)
   end
 
   def add_attributes_to_videos
@@ -102,16 +73,20 @@ class SeClimbingVideos::CLI
       if video.origin == "Youtube"
         attributes = SeClimbingVideos::Scraper.scrape_youtube_video(video.video_url)
         video.add_video_attributes(attributes)
+      elsif video.origin == "Vimeo"
+        attributes = SeClimbingVideos::Scraper.scrape_vimeo_video(video.video_url)
+        video.add_video_attributes(attributes)
       end
-    end
-
-  def list_videos
-    @video_array = SeClimbingVideos::Video.recent_videos
-    @videos.each.with_index(1) do |video, i|
-      puts "#{i}. #{video.name} - #{video.upload_user} - #{video.upload_date}"
     end
   end
 
+#  def list_videos
+#    @video_array = SeClimbingVideos::Video.recent_videos
+#    @videos.each.with_index(1) do |video, i|
+#      puts "#{i}. #{video.name} - #{video.upload_user} - #{video.upload_date}"
+#    end
+#  end
+#
   def display_video
     puts "Please select which video from the list you would like to learn more about:"
     video_input = gets.strip
