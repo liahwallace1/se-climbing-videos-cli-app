@@ -4,13 +4,40 @@ class SeClimbingVideos::CLI
 
   attr_accessor :location, :videos
 
+  SEARCH_LINKS = {
+    :boone => {
+      youtube: "https://www.youtube.com/results?sp=CAI%253D&q=Boone+NC+bouldering",
+      vimeo: "https://vimeo.com/search/sort:latest?q=Boone%2C+NC+bouldering"
+    },
+    :grayson_highlands => {
+      youtube: "https://www.youtube.com/results?q=Grayson+Highlands+bouldering&sp=CAI%253D",
+      vimeo: "https://vimeo.com/search/sort:latest?q=Grayson+Highlands+bouldering"
+    },
+    :horse_pens_40 => {
+      youtube: "https://www.youtube.com/results?q=horse+pens+40+bouldering&sp=CAI%253D",
+      vimeo: "https://vimeo.com/search/sort:latest?q=Horse+Pens+40+bouldering"
+    },
+    :rocktown => {
+      youtube: "https://www.youtube.com/results?q=Rocktown+bouldering&sp=CAI%253D",
+      vimeo: "https://vimeo.com/search/sort:latest?q=Rocktown+bouldering"
+    },
+    :rumbling_bald => {
+      youtube: "https://www.youtube.com/results?q=rumbling+bald+bouldering&sp=CAI%253D",
+      vimeo: "https://vimeo.com/search/sort:latest?q=rumbling+bald+bouldering"
+    },
+    :stone_fort => {
+      youtube: "https://www.youtube.com/results?sp=CAI%253D&q=Stone+Fort+LRC+bouldering",
+      vimeo: "https://vimeo.com/search/sort:latest?q=stone+fort+lrc+bouldering"
+    }
+  }
+
   def call
     puts "Welcome to SE Climbing Videos. This is a way to find the newest videos uploaded on Vimeo and Youtube for your favorite Southeast Bouldering spot."
     start
   end
 
   def start
-    select_location
+    location_search
     list_videos
     display_video
   #  select_time
@@ -19,7 +46,7 @@ class SeClimbingVideos::CLI
     goodbye
   end
 
-  def select_location
+  def location_search
     puts "Please enter the number of the bouldering area you would like to search:"
     puts "You can enter:"
     puts "1. Boone, NC"
@@ -32,28 +59,28 @@ class SeClimbingVideos::CLI
     case location_input
       when "1"
         @location = "Boone, NC"
-        puts "Executing search on Boone, NC"
-        #SeClimbingVideos::Scraper.new("https://www.youtube.com/results?sp=CAI%253D&q=Boone+NC+bouldering", "https://vimeo.com/search/sort:latest?q=Boone%2C+NC+bouldering")
+        puts "Search results for Boone, NC"
+        video_search(:boone))
       when "2"
         @location = "Grayson Highlands, VA"
-        puts "Executing search on Grayson Highlands, VA"
-        #SeClimbingVideos::Scraper.new("https://www.youtube.com/results?q=Grayson+Highlands+bouldering&sp=CAI%253D", "https://vimeo.com/search/sort:latest?q=Grayson+Highlands+bouldering")
+        puts "Search results for Grayson Highlands, VA"
+        video_search(:grayson_highlands)
       when "3"
         @location = "Horse Pens 40, AL"
-        puts "Executing search on Horse Pens 40, AL"
-        #SeClimbingVideos::Scraper.new("https://www.youtube.com/results?q=horse+pens+40+bouldering&sp=CAI%253D", "https://vimeo.com/search/sort:latest?q=Horse+Pens+40+bouldering")
+        puts "Search results for Horse Pens 40, AL"
+        video_search(:horse_pens_40)
       when "4"
         @location = "Rocktown, GA"
-        puts "Executing search on Rocktown, GA"
-        #SeClimbingVideos::Scraper.new("https://www.youtube.com/results?q=Rocktown+bouldering&sp=CAI%253D", "https://vimeo.com/search/sort:latest?q=Rocktown+bouldering")
+        puts "Search results for Rocktown, GA"
+        video_search(:rocktown)
       when "5"
         @location = "Rumbling Bald, NC"
-        puts "Executing search on Rumbling Bald, NC"
-        #SeClimbingVideos::Scraper.new("https://www.youtube.com/results?q=rumbling+bald+bouldering&sp=CAI%253D", "https://vimeo.com/search/sort:latest?q=rumbling+bald+bouldering")
+        puts "Search results for Rumbling Bald, NC"
+        video_search(:rumbling_bald)
       when "6"
         @location = "Stone Fort (LRC), TN"
-        puts "Executing search on Stone Fort (LRC), TN"
-        #SeClimbingVideos::Scraper.new("https://www.youtube.com/results?sp=CAI%253D&q=Stone+Fort+LRC+bouldering", "https://vimeo.com/search/sort:latest?q=stone+fort+lrc+bouldering")
+        puts "Search results for Stone Fort (LRC), TN"
+        video_search(:stone_fort)
       when "exit"
         goodbye
         exit
@@ -63,8 +90,23 @@ class SeClimbingVideos::CLI
     end
   end
 
+  def video_search(location)
+    youtube_array = SeClimbingVideos::Scraper.scrape_youtube_list(SEARCH_LINKS[location][:youtube])
+    vimeo_array = SeClimbingVideos::Scraper.scrape_vimeo_list(SEARCH_LINKS[location][:vimeo])
+    @video_array = youtube_array + vimeo_array
+    SeClimbingVideos::Video.create_from_collection(@video_array)
+  end
+
+  def add_attributes_to_videos
+    Video.all.each do |video|
+      if video.origin == "Youtube"
+        attributes = SeClimbingVideos::Scraper.scrape_youtube_video(video.video_url)
+        video.add_video_attributes(attributes)
+      end
+    end
+
   def list_videos
-    @videos = SeClimbingVideos::Video.recent_videos
+    @video_array = SeClimbingVideos::Video.recent_videos
     @videos.each.with_index(1) do |video, i|
       puts "#{i}. #{video.name} - #{video.upload_user} - #{video.upload_date}"
     end

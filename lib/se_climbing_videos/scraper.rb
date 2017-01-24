@@ -1,21 +1,18 @@
 class SeClimbingVideos::Scraper
 
-  attr_accessor :youtube_url, :vimeo_url
-
-  def initialize(youtube_url, vimeo_url)
-    @youtube_url = youtube_url
-    @vimeo_url = vimeo_url
-  end
-
-#  def get_page
-#    Nokogiri::HTML(open(@webpage))
+#  attr_accessor :youtube_url, :vimeo_url
+#
+#  def initialize(youtube_url, vimeo_url)
+#    @youtube_url = youtube_url
+#    @vimeo_url = vimeo_url
 #  end
 
-  def self.scrape_youtube_list
-    doc = Nokogiri::HTML(open(@youtube_url))
+  def self.scrape_youtube_list(youtube_search_url)
+    doc = Nokogiri::HTML(open(youtube__search_url))
 
     doc.css("div.yt-lockup-content").collect do |item|
       video = SeClimbingVideos::Video.new
+      video.origin = "Youtube"
       video.name = doc.search("a.yt-uix-tile-link").attr("title").text
       video.upload_user = doc.search("div.yt-lockup-byline").text
       video.duration = doc.search("span.accessible-description").text.gsub(" - Duration: ", "").gsub(".", "")
@@ -23,7 +20,7 @@ class SeClimbingVideos::Scraper
     end
   end
 
-  def self.scrape_youtube_video
+  def self.scrape_youtube_video(video_url)
 
     description_doc = Nokogiri::HTML(open(video_url))
     video.description = description_doc.search("#eow-description").text
@@ -36,6 +33,7 @@ class SeClimbingVideos::Scraper
 
     doc.css("div.iris_video-vital").collect do |item|
       video = SeClimbingVideos::Video.new
+      video.origin = "Vimeo"
       video.name = doc.search("span.iris_link-header").text
       video.upload_user = doc.search("a.iris_userinfo").text
       video.video_url = doc.search("a.iris_video-vital__overlay").attr("href").value
