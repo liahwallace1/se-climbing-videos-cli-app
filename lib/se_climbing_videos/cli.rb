@@ -81,12 +81,12 @@ class SeClimbingVideos::CLI
 
   def select_new_video
     puts "Would you like to select another video from the list? (Y/N)"
-    input = gets.strip.upcase
+    input = gets.strip.downcase
     case input
-      when "Y"
+    when "y"
         select_video
         select_new_video
-      when "N"
+      when "n"
         select_new_location
       when "exit"
         goodbye
