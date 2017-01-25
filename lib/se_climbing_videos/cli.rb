@@ -1,11 +1,9 @@
-#Our CLI Controller
-
 class SeClimbingVideos::CLI
 
   attr_accessor :location_input
 
   def call
-    puts "Welcome to SE Climbing Videos. This is a way to find the newest videos uploaded on Vimeo and Youtube for your favorite Southeast Bouldering spot."
+    puts "Welcome to SE Climbing Videos. This is a way to find the newest videos uploaded on Youtube for your favorite Southeast Bouldering spot."
     start
   end
 
@@ -13,7 +11,6 @@ class SeClimbingVideos::CLI
     location_search
     print_videos
     select_video
-  #  select_time
     select_new_video
     select_new_location
     goodbye
@@ -32,37 +29,7 @@ class SeClimbingVideos::CLI
 
     if ["1", "2", "3", "4", "5", "6"].include?(@location_input)
       SeClimbingVideos::Scraper.new.make_videos(SeClimbingVideos::SEARCH_LINKS[@location_input][:link], SeClimbingVideos::SEARCH_LINKS[@location_input][:location])
-  #  case @location_input
-  #    when "1"
-  #      make_videos(:boone)
-  #      add_attributes_to_videos
-  #      list_20_videos(:boone)
-  #      puts "Search results for Boone, NC"
-  #    when "2"
-  #      make_videos(:grayson_highlands)
-  #      add_attributes_to_videos
-  #      list_20_videos(:grayson_highlands)
-  #      puts "Search results for Grayson Highlands, VA"
-  #    when "3"
-  #      make_videos(:horse_pens_40)
-  #      add_attributes_to_videos
-  #      list_20_videos(:horse_pens_40)
-  #      puts "Search results for Horse Pens 40, AL"
-  #    when "4"
-  #      make_videos(:rocktown)
-  #      add_attributes_to_videos
-  #      list_20_videos(:rocktown)
-  #      puts "Search results for Rocktown, GA"
-  #    when "5"
-  #      make_videos
-  #      add_attributes_to_videos
-  #      list_20_videos(:rumbling_bald)
-  #      puts "Search results for Rumbling Bald, NC"
-  #    when "6"
-  #      make_videos
-  #      add_attributes_to_videos
-  #      list_20_videos(:stone_fort)
-  #      puts "Search results for Stone Fort (LRC), TN"
+
     elsif @location_input =="exit"
       goodbye
       exit
@@ -71,19 +38,6 @@ class SeClimbingVideos::CLI
       location_search
     end
   end
-
-#  def make_videos
-#    video_array = SeClimbingVideos::Scraper.scrape_youtube_list(SEARCH_LINKS[@location_input][:youtube])
-#    SeClimbingVideos::Video.create_from_collection(video_array)
-#  end
-
-#  def add_attributes_to_videos
-#    Video.all.each do |video|
-#        attributes = SeClimbingVideos::Scraper.scrape_youtube_video(video.video_url)
-#        video.add_video_attributes(attributes)
-#      end
-#    end
-#  end
 
   def print_videos
     puts "---Latest 20 videos from #{SeClimbingVideos::SEARCH_LINKS[@location_input][:location]}---"
@@ -142,38 +96,6 @@ class SeClimbingVideos::CLI
         select_new_video
     end
   end
-
-#  def select_time
-#    puts "You can pick far back you want your search to go."
-#    puts "You can enter:"
-#    puts "1. one week ago"
-#    puts "2. one month ago"
-#    puts "3. three months ago"
-#    puts "4. six months ago"
-#    puts "5. one year ago"
-#    puts "6. forever"
-#    @time = gets.strip.downcase
-#    case @time
-#      when "1"
-#        puts "Provide videos uploaded in the past week"
-#      when "2"
-#        puts "Provide videos uploaded in the past month"
-#      when "3"
-#        puts "Provide videos uploaded in the past 3 months"
-#      when "4"
-#        puts "Provide videos uploaded in the past 6 months"
-#      when "5"
-#        puts "Provide videos uploaded in the past year"
-#      when "6"
-#        puts "Provide all videos uploaded for this location"
-#      when "exit"
-#        goodbye
-#        exit
-#      else
-#        puts "Please enter a valid number."
-#        select_time
-#    end
-#  end
 
   def select_new_location
     puts "Would you like to search for videos in a different location? (Y/N)"

@@ -19,11 +19,6 @@ class SeClimbingVideos::Video
     @@all << self unless @@all.include?(self)
   end
 
-#  def initialize(video_hash)
-#    video_hash.each{|key, value| self.send(("#{key}="), value)}
-#    @@all << self
-#  end
-
   def self.all
     @@all
   end
@@ -47,19 +42,5 @@ class SeClimbingVideos::Video
   def upload_date
     @upload_date ||= video_doc.search("#watch-uploader-info").text.gsub("Published on ", "").strip
   end
-
-#  def self.all_at_location
-#    self.all.collect! {|video| video.location == SeClimbingVideos::SEARCH_LINKS["1"][:location]}
-#  end
-
-
-#  def self.create_from_collection(video_array)
-#    video_array.each{|video_hash| Video.new(video_hash)}
-#  end
-#
-#  def add_video_attributes(attributes_hash)
-#    attributes_hash.each{|key, value| self.send(("#{key}="), value)}
-#    self
-#  end
 
 end
