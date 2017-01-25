@@ -62,7 +62,7 @@ class SeClimbingVideos::CLI
     elsif video_input == "exit"
       select_new_location
     else
-      puts "Not sure which video you want to see more about, type list number or exit.".colorize(:yellow)
+      puts "Not sure which video you want to see more about. Type a number from the list or exit.".colorize(:yellow)
       select_video
     end
   end

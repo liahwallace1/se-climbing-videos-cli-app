@@ -36,6 +36,7 @@ class SeClimbingVideos::Video
   end
 
   def description
+    @video_doc.search("br").each {|node| node.replace("\n")}
     @description ||= @video_doc.search("#eow-description").text
   end
 
