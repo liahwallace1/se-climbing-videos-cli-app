@@ -27,33 +27,4 @@ class SeClimbingVideos::Scraper
     video_info
   end
 
-
-  def self.scrape_vimeo_list
-    doc = Nokogiri::HTML(open("http://vimeo.com/search/sort:latest?q=boone+nc+bouldering"))
-
-    vimeo_videos = []
-
-    doc.css("div.iris_video-vital").collect do |video|
-      vimeo_videos << {
-      :origin = "Vimeo",
-      :name = doc.search("span.iris_link-header").text,
-      :upload_user = doc.search("a.iris_userinfo").text,
-      :duration = doc.search("span.iris_annotation__duration").text,
-      :video_url = doc.search("a.iris_video-vital__overlay").attr("href").value
-    }
-    end
-    vimeo_videos
-  end
-
-  def self.scrape_vimeo_video(video_url)
-    video_doc = Nokogiri::HTML(open(video_url))
-
-    video_info = {
-    :description = description_doc.search("p.first").text,
-    :upload_date = description_doc.search("time.clip-time").text.split(" ")
-    }
-
-    video_info
-  end
-
 end

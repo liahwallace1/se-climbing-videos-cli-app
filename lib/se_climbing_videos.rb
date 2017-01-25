@@ -2,35 +2,29 @@ require_relative '../config/environment'
 
 module SeClimbingVideos
   SEARCH_LINKS = {
-    :boone => {
+    "1" => {
       location: "Boone, NC",
-      youtube: "https://www.youtube.com/results?sp=CAI%253D&q=Boone+NC+bouldering",
-      vimeo: "https://vimeo.com/search/sort:latest?q=Boone%2C+NC+bouldering"
+      link: "https://www.youtube.com/results?sp=CAI%253D&q=Boone+NC+bouldering"
     },
-    :grayson_highlands => {
+    "2" => {
       location: "Grayson Highlands, VA",
-      youtube: "https://www.youtube.com/results?q=Grayson+Highlands+bouldering&sp=CAI%253D",
-      vimeo: "https://vimeo.com/search/sort:latest?q=Grayson+Highlands+bouldering"
+      link: "https://www.youtube.com/results?q=Grayson+Highlands+bouldering&sp=CAI%253D"
     },
-    :horse_pens_40 => {
+    "3" => {
       location: "Horse Pens 40, AL",
-      youtube: "https://www.youtube.com/results?q=horse+pens+40+bouldering&sp=CAI%253D",
-      vimeo: "https://vimeo.com/search/sort:latest?q=Horse+Pens+40+bouldering"
+      link: "https://www.youtube.com/results?q=horse+pens+40+bouldering&sp=CAI%253D"
     },
-    :rocktown => {
+    "4" => {
       location: "Rocktown, GA",
-      youtube: "https://www.youtube.com/results?q=Rocktown+bouldering&sp=CAI%253D",
-      vimeo: "https://vimeo.com/search/sort:latest?q=Rocktown+bouldering"
+      link: "https://www.youtube.com/results?q=Rocktown+bouldering&sp=CAI%253D"
     },
-    :rumbling_bald => {
+    "5" => {
       location: "Rumbling Bald, NC",
-      youtube: "https://www.youtube.com/results?q=rumbling+bald+bouldering&sp=CAI%253D",
-      vimeo: "https://vimeo.com/search/sort:latest?q=rumbling+bald+bouldering"
+      link: "https://www.youtube.com/results?q=rumbling+bald+bouldering&sp=CAI%253D"
     },
-    :stone_fort => {
+    "6" => {
       location: "Stone Fort (LRC), TN",
-      youtube: "https://www.youtube.com/results?sp=CAI%253D&q=Stone+Fort+LRC+bouldering",
-      vimeo: "https://vimeo.com/search/sort:latest?q=stone+fort+lrc+bouldering"
+      link: "https://www.youtube.com/results?sp=CAI%253D&q=Stone+Fort+LRC+bouldering"
     }
   }
 end

@@ -2,6 +2,8 @@
 
 class SeClimbingVideos::CLI
 
+  attr_accessor :location_input
+
   def call
     puts "Welcome to SE Climbing Videos. This is a way to find the newest videos uploaded on Vimeo and Youtube for your favorite Southeast Bouldering spot."
     start
@@ -26,61 +28,58 @@ class SeClimbingVideos::CLI
     puts "4. Rocktown, GA"
     puts "5. Rumbling Bald, NC"
     puts "6. Stone Fort (LRC), TN"
-    location_input = gets.strip
-    case location_input
-      when "1"
-        make_videos(:boone)
-        add_attributes_to_videos
-        list_20_videos(:boone)
-        puts "Search results for Boone, NC"
-      when "2"
-        make_videos(:grayson_highlands)
-        add_attributes_to_videos
-        list_20_videos(:grayson_highlands)
-        puts "Search results for Grayson Highlands, VA"
-      when "3"
-        make_videos(:horse_pens_40)
-        add_attributes_to_videos
-        list_20_videos(:horse_pens_40)
-        puts "Search results for Horse Pens 40, AL"
-      when "4"
-        make_videos(:rocktown)
-        add_attributes_to_videos
-        list_20_videos(:rocktown)
-        puts "Search results for Rocktown, GA"
-      when "5"
-        make_videos(:rumbling_bald)
-        add_attributes_to_videos
-        list_20_videos(:rumbling_bald)
-        puts "Search results for Rumbling Bald, NC"
-      when "6"
-        make_videos(:stone_fort)
-        add_attributes_to_videos
-        list_20_videos(:stone_fort)
-        puts "Search results for Stone Fort (LRC), TN"
-      when "exit"
-        goodbye
-        exit
-      else
-        puts "Please enter a valid number. If you don't see your favorite location, send me an email so I can update the app!"
-        select_location
+    @location_input = gets.strip
+
+    if ["1", "2", "3", "4", "5", "6"].include?(@location_input)
+      SeClimbingVideos::Scraper.new.make_videos(SEARCH_LINKS[@location_input][:link])
+  #  case @location_input
+  #    when "1"
+  #      make_videos(:boone)
+  #      add_attributes_to_videos
+  #      list_20_videos(:boone)
+  #      puts "Search results for Boone, NC"
+  #    when "2"
+  #      make_videos(:grayson_highlands)
+  #      add_attributes_to_videos
+  #      list_20_videos(:grayson_highlands)
+  #      puts "Search results for Grayson Highlands, VA"
+  #    when "3"
+  #      make_videos(:horse_pens_40)
+  #      add_attributes_to_videos
+  #      list_20_videos(:horse_pens_40)
+  #      puts "Search results for Horse Pens 40, AL"
+  #    when "4"
+  #      make_videos(:rocktown)
+  #      add_attributes_to_videos
+  #      list_20_videos(:rocktown)
+  #      puts "Search results for Rocktown, GA"
+  #    when "5"
+  #      make_videos
+  #      add_attributes_to_videos
+  #      list_20_videos(:rumbling_bald)
+  #      puts "Search results for Rumbling Bald, NC"
+  #    when "6"
+  #      make_videos
+  #      add_attributes_to_videos
+  #      list_20_videos(:stone_fort)
+  #      puts "Search results for Stone Fort (LRC), TN"
+    elsif @location_input =="exit"
+      goodbye
+      exit
+    else
+      puts "Please enter a valid number. If you don't see your favorite location, send me an email so I can update the app!"
+      select_location
     end
   end
 
-  def make_videos(location)
-    youtube_array = SeClimbingVideos::Scraper.scrape_youtube_list(SEARCH_LINKS[location][:youtube])
-    vimeo_array = SeClimbingVideos::Scraper.scrape_vimeo_list(SEARCH_LINKS[location][:vimeo])
-    video_array = youtube_array + vimeo_array
+  def make_videos
+    video_array = SeClimbingVideos::Scraper.scrape_youtube_list(SEARCH_LINKS[@location_input][:youtube])
     SeClimbingVideos::Video.create_from_collection(video_array)
   end
 
   def add_attributes_to_videos
     Video.all.each do |video|
-      if video.origin == "Youtube"
         attributes = SeClimbingVideos::Scraper.scrape_youtube_video(video.video_url)
-        video.add_video_attributes(attributes)
-      elsif video.origin == "Vimeo"
-        attributes = SeClimbingVideos::Scraper.scrape_vimeo_video(video.video_url)
         video.add_video_attributes(attributes)
       end
     end

@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["liahwallace1@gmail.com"]
 
   spec.summary       = "Southeast bouldering video aggregator."
-  spec.description   = "The Southeast Climbing Videos gem will help you find the newest videos uploaded on Vimeo and Youtube for your favorite Southeast Bouldering spot by providing a list of videos by location and upload date."
+  spec.description   = "The Southeast Climbing Videos gem will help you find the newest videos uploaded Youtube for your favorite Southeast Bouldering spot by providing a list of videos by location and upload date."
   spec.homepage      = "https://github.com/liahwallace1/se-climbing-videos-cli-app"
   spec.license       = "MIT"
 
