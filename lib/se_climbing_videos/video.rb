@@ -28,8 +28,12 @@ class SeClimbingVideos::Video
     @@all
   end
 
+  def self.reset
+    @@all.clear
+  end
+
   def self.find(input)
-    self.all[input-1]
+    self.all[input.to_i-1]
   end
 
   def video_doc

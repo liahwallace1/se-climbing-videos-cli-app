@@ -13,7 +13,6 @@ class SeClimbingVideos::CLI
     location_search
     print_videos
     select_video
-    display_video
   #  select_time
     select_new_video
     select_new_location
@@ -98,9 +97,9 @@ class SeClimbingVideos::CLI
 
   def select_video
     puts "Please select which video from the list you would like to learn more about:"
-    video_input = gets.strip.to_i
+    video_input = gets.strip
 
-    if video_input > 0
+    if video_input.to_i > 0 and video_input.to_i < 21
       video = SeClimbingVideos::Video.find(video_input)
       display_video(video)
     elsif video_input == "exit"
@@ -113,7 +112,7 @@ class SeClimbingVideos::CLI
 
   def display_video(video)
     puts ""
-    puts "----#{video.name}----"
+    puts "Video Name:     #{video.name}"
     puts ""
     puts "Location:       #{video.location}"
     puts "Upload Date:    #{video.upload_date}"
@@ -131,11 +130,13 @@ class SeClimbingVideos::CLI
     input = gets.strip.upcase
     case input
       when "Y"
-        print_videos
         select_video
         select_new_video
       when "N"
         select_new_location
+      when "exit"
+        goodbye
+        exit
       else
         "Please enter Y to search more videos or N to exit"
         select_new_video
@@ -179,8 +180,12 @@ class SeClimbingVideos::CLI
     input = gets.strip.upcase
     case input
       when "Y"
+        SeClimbingVideos::Video.reset
         start
       when "N"
+        goodbye
+        exit
+      when "exit"
         goodbye
         exit
       else
