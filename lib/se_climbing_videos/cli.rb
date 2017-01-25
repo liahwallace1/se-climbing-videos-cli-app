@@ -12,9 +12,10 @@ class SeClimbingVideos::CLI
   def start
     location_search
     print_videos
+    select_video
     display_video
   #  select_time
-    display_new_video
+    select_new_video
     select_new_location
     goodbye
   end
@@ -88,8 +89,8 @@ class SeClimbingVideos::CLI
   def print_videos
     puts "---Latest 20 videos from #{SeClimbingVideos::SEARCH_LINKS[@location_input][:location]}---"
     puts ""
- SeClimbingVideos::Video.all_at_location.each.with_index(1) do |video, i|
-      if i < 21
+ SeClimbingVideos::Video.all.each.with_index(1) do |video, i|
+      if video.location == SeClimbingVideos::SEARCH_LINKS[@location_input][:location]
       puts "#{i}. #{video.name} - #{video.upload_user} - #{video.upload_date}"
       end
     end

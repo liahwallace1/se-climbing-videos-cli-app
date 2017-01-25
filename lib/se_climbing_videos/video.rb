@@ -44,9 +44,9 @@ class SeClimbingVideos::Video
     @upload_date ||= video_doc.search("#watch-uploader-info").text.gsub("Published on ", "").strip
   end
 
-  def self.all_at_location
-    self.all.collect! {|video| video.location == SeClimbingVideos::SEARCH_LINKS["1"][:location]}
-  end
+#  def self.all_at_location
+#    self.all.collect! {|video| video.location == SeClimbingVideos::SEARCH_LINKS["1"][:location]}
+#  end
 
 
 #  def self.create_from_collection(video_array)
