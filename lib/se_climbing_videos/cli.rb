@@ -11,7 +11,7 @@ class SeClimbingVideos::CLI
 
   def start
     location_search
-    list_videos
+    print_videos
     display_video
   #  select_time
     display_new_video
@@ -31,7 +31,7 @@ class SeClimbingVideos::CLI
     @location_input = gets.strip
 
     if ["1", "2", "3", "4", "5", "6"].include?(@location_input)
-      SeClimbingVideos::Scraper.new.make_videos(SEARCH_LINKS[@location_input][:link])
+      SeClimbingVideos::Scraper.new.make_videos(SeClimbingVideos::SEARCH_LINKS[@location_input][:link])
   #  case @location_input
   #    when "1"
   #      make_videos(:boone)
@@ -72,22 +72,23 @@ class SeClimbingVideos::CLI
     end
   end
 
-  def make_videos
-    video_array = SeClimbingVideos::Scraper.scrape_youtube_list(SEARCH_LINKS[@location_input][:youtube])
-    SeClimbingVideos::Video.create_from_collection(video_array)
-  end
+#  def make_videos
+#    video_array = SeClimbingVideos::Scraper.scrape_youtube_list(SEARCH_LINKS[@location_input][:youtube])
+#    SeClimbingVideos::Video.create_from_collection(video_array)
+#  end
 
-  def add_attributes_to_videos
-    Video.all.each do |video|
-        attributes = SeClimbingVideos::Scraper.scrape_youtube_video(video.video_url)
-        video.add_video_attributes(attributes)
-      end
-    end
-  end
+#  def add_attributes_to_videos
+#    Video.all.each do |video|
+#        attributes = SeClimbingVideos::Scraper.scrape_youtube_video(video.video_url)
+#        video.add_video_attributes(attributes)
+#      end
+#    end
+#  end
 
-  def list_20_videos(location)
-    #want this list to only include videos at certain location. Need to figure out how to set location attribute before this will work. Also how to do dates. Sort should have latest date first in array.
-    @list_videos = SeClimbingVideos::Video.all_at_location_by_date(location)
+  def print_videos
+    puts "---Latest 20 videos from #{SeClimbingVideos::SEARCH_LINKS[@location_input][:location]}---"
+    puts ""
+    @list_videos = SeClimbingVideos::Video.all_at_location
     @list_videos.each.with_index(1) do |video, i|
       if i < 21
       puts "#{i}. #{video.name} - #{video.upload_user} - #{video.upload_date}"
@@ -99,17 +100,30 @@ class SeClimbingVideos::CLI
     puts "Please select which video from the list you would like to learn more about:"
     video_input = gets.strip.to_i
 
-    if video_input.to_i > 0
-      index = video_input - 1
-      display_video(index)
+    if video_input > 0
+      video = SeClimbingVideos::Video.find(video_input)
+      display_video(video)
+    elsif video_input == "exit"
+      select_new_location
     else
       puts "Not sure which video you want to see more about, type list number or exit."
       select_video
     end
   end
 
-  def display_video(index)
-    @list_videos = SeClimbingVideos::Video.all_at_location_by_date(location)
+  def display_video(video)
+    puts ""
+    puts "----#{video.name}----"
+    puts ""
+    puts "Location:       #{video.location}"
+    puts "Upload Date:    #{video.upload_date}"
+    puts "Uploaded By:    #{video.upload_user}"
+    puts "Duration:       #{video.duration}"
+    puts "Video URL:      #{video.video_url}"
+    puts ""
+    puts "Description:"
+    puts "#{video.description}"
+    puts ""
   end
 
   def select_new_video
@@ -117,14 +131,14 @@ class SeClimbingVideos::CLI
     input = gets.strip.upcase
     case input
       when "Y"
-        list_videos
-        display_video
-        display_new_video
+        print_videos
+        select_video
+        select_new_video
       when "N"
         select_new_location
       else
         "Please enter Y to search more videos or N to exit"
-        display_new_video
+        select_new_video
     end
   end
 
