@@ -2,10 +2,16 @@ class SeClimbingVideos::Scraper
 
   attr_accessor :list_doc
 
-  def make_videos(link)
-    @list_doc = Nokogiri::HTML(open(link))
+  def get_page(link)
+    Nokogiri::HTML(open(link))
+  end
 
-    doc.css("div.yt-lockup-content").each do |video|
+  def scrape_video_index
+    self.get_page.css("div.yt-lockup-content")
+  end
+
+  def make_videos(link)
+    scrape_video_index.each do |video|
       SeClimbingVideos::Video.new_from_youtube_list(video)
     end
   end

@@ -68,7 +68,7 @@ class SeClimbingVideos::CLI
       exit
     else
       puts "Please enter a valid number. If you don't see your favorite location, send me an email so I can update the app!"
-      select_location
+      location_search
     end
   end
 
