@@ -4,19 +4,19 @@ class SeClimbingVideos::Video
 
   @@all = []
 
-  def self.new_from_youtube_list(video)
+  def self.new_from_youtube_list(video, location)
     self.new(
-      SeClimbingVideos::Scraper.list_doc.search("a.yt-uix-tile-link").attr("title").text, SeClimbingVideos::Scraper.list_doc.search("div.yt-lockup-byline").text, SeClimbingVideos::Scraper.list_doc.search("span.accessible-description").text.gsub(" - Duration: ", "").gsub(".", ""), ("https://www.youtube.com" +  SeClimbingVideos::Scraper.list_doc.search("a.yt-uix-tile-link").attr("href").value)
+      video.search("a.yt-uix-tile-link").attr("title").text, video.search("div.yt-lockup-byline").text, video.search("span.accessible-description").text.gsub(" - Duration: ", "").gsub(".", ""), ("https://www.youtube.com" +  video.search("a.yt-uix-tile-link").attr("href").value), location
     )
   end
 
-  def initialize(name=nil, upload_user=nil, duration=nil, video_url=nil)
+  def initialize(name=nil, upload_user=nil, duration=nil, video_url=nil, location=nil)
     @name = name
     @upload_user = upload_user
     @duration = duration
     @video_url = video_url
-    @location = SEARCH_LINKS[SeClimbingVideos::CLI.location_input][:location]
-    @all << self unless @@all.include?(self)
+    @location = location
+    @@all << self unless @@all.include?(self)
   end
 
 #  def initialize(video_hash)
@@ -45,7 +45,7 @@ class SeClimbingVideos::Video
   end
 
   def self.all_at_location
-    self.all.collect! {|video| video.location == SEARCH_LINKS[SeClimbingVideos::CLI.location_input][:location]}
+    self.all.collect! {|video| video.location == SeClimbingVideos::SEARCH_LINKS["1"][:location]}
   end
 
 

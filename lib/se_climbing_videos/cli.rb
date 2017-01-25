@@ -28,10 +28,10 @@ class SeClimbingVideos::CLI
     puts "4. Rocktown, GA"
     puts "5. Rumbling Bald, NC"
     puts "6. Stone Fort (LRC), TN"
-    @location_input = gets.strip
+    self.location_input = gets.strip
 
     if ["1", "2", "3", "4", "5", "6"].include?(@location_input)
-      SeClimbingVideos::Scraper.new.make_videos(SeClimbingVideos::SEARCH_LINKS[@location_input][:link])
+      SeClimbingVideos::Scraper.new.make_videos(SeClimbingVideos::SEARCH_LINKS[@location_input][:link], SeClimbingVideos::SEARCH_LINKS[@location_input][:location])
   #  case @location_input
   #    when "1"
   #      make_videos(:boone)
@@ -88,8 +88,7 @@ class SeClimbingVideos::CLI
   def print_videos
     puts "---Latest 20 videos from #{SeClimbingVideos::SEARCH_LINKS[@location_input][:location]}---"
     puts ""
-    @list_videos = SeClimbingVideos::Video.all_at_location
-    @list_videos.each.with_index(1) do |video, i|
+ SeClimbingVideos::Video.all_at_location.each.with_index(1) do |video, i|
       if i < 21
       puts "#{i}. #{video.name} - #{video.upload_user} - #{video.upload_date}"
       end
