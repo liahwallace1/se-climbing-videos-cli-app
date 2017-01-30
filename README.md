@@ -21,7 +21,9 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Type the following and follow the on screen prompts.
+
+$ se_climbing_videos
 
 ## Development
 
