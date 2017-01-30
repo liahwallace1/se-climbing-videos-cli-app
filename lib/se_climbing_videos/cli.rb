@@ -1,5 +1,32 @@
 class SeClimbingVideos::CLI
 
+  SEARCH_LINKS = {
+    "1" => {
+      location: "Boone, NC",
+      link: "https://www.youtube.com/results?sp=CAI%253D&q=Boone+NC+bouldering"
+    },
+    "2" => {
+      location: "Grayson Highlands, VA",
+      link: "https://www.youtube.com/results?q=Grayson+Highlands+bouldering&sp=CAI%253D"
+    },
+    "3" => {
+      location: "Horse Pens 40, AL",
+      link: "https://www.youtube.com/results?q=horse+pens+40+bouldering&sp=CAI%253D"
+    },
+    "4" => {
+      location: "Rocktown, GA",
+      link: "https://www.youtube.com/results?q=Rocktown+bouldering&sp=CAI%253D"
+    },
+    "5" => {
+      location: "Rumbling Bald, NC",
+      link: "https://www.youtube.com/results?q=rumbling+bald+bouldering&sp=CAI%253D"
+    },
+    "6" => {
+      location: "Stone Fort (LRC), TN",
+      link: "https://www.youtube.com/results?sp=CAI%253D&q=Stone+Fort+LRC+bouldering"
+    }
+  }
+
   attr_accessor :location_input
 
   def call
@@ -30,7 +57,7 @@ class SeClimbingVideos::CLI
     self.location_input = gets.strip
 
     if ["1", "2", "3", "4", "5", "6"].include?(@location_input)
-      SeClimbingVideos::Scraper.new.make_videos(SeClimbingVideos::SEARCH_LINKS[@location_input][:link], SeClimbingVideos::SEARCH_LINKS[@location_input][:location])
+      SeClimbingVideos::Scraper.new.make_videos(SeClimbingVideos::CLI::SEARCH_LINKS[@location_input][:link], SeClimbingVideos::CLI::SEARCH_LINKS[@location_input][:location])
 
     elsif @location_input =="exit"
       goodbye
@@ -42,10 +69,10 @@ class SeClimbingVideos::CLI
   end
 
   def print_videos
-    puts "---Latest 20 videos from #{SeClimbingVideos::SEARCH_LINKS[@location_input][:location]}---".colorize(:light_blue)
+    puts "---Latest 20 videos from #{SeClimbingVideos::CLI::SEARCH_LINKS[@location_input][:location]}---".colorize(:light_blue)
     puts ""
  SeClimbingVideos::Video.all.each.with_index(1) do |video, i|
-      if video.location == SeClimbingVideos::SEARCH_LINKS[@location_input][:location]
+      if video.location == SeClimbingVideos::CLI::SEARCH_LINKS[@location_input][:location]
       puts "#{i}. "+"#{video.name}".colorize(:light_blue)+" - #{video.upload_user} - #{video.upload_date}"
       end
     end
