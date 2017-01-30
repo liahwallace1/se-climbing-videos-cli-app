@@ -6,6 +6,7 @@ require 'se_climbing_videos/version'
 Gem::Specification.new do |spec|
   spec.name          = "se_climbing_videos"
   spec.version       = SeClimbingVideos::VERSION
+  spec.date          = "2017-01-30"
   spec.authors       = ["Liah Wallace"]
   spec.email         = ["liahwallace1@gmail.com"]
 
