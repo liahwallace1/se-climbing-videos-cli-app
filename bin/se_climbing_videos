@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
 require "bundler/setup"
-require "se_climbing_videos"
+require_relative "../lib/se_climbing_videos"
 
 SeClimbingVideos::CLI.new.call

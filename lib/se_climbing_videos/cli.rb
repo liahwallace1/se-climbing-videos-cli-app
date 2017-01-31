@@ -1,6 +1,6 @@
 class SeClimbingVideos::CLI
 
-  SEARCH_LINKS = {
+  SEARCH_LINKS = [
     "1" => {
       location: "Boone, NC",
       link: "https://www.youtube.com/results?sp=CAI%253D&q=Boone+NC+bouldering"
@@ -25,15 +25,19 @@ class SeClimbingVideos::CLI
       location: "Stone Fort (LRC), TN",
       link: "https://www.youtube.com/results?sp=CAI%253D&q=Stone+Fort+LRC+bouldering"
     }
-  }
+  ]
 
   attr_accessor :location_input
 
   def call
+    welcome
+    start
+  end
+
+  def welcome
     puts ""
     puts "Welcome to SE Climbing Videos. This is a way to find the newest videos uploaded on Youtube for your favorite Southeast Bouldering spot.".colorize(:light_cyan)
     puts ""
-    start
   end
 
   def start
@@ -48,15 +52,21 @@ class SeClimbingVideos::CLI
   def location_search
     puts "Please enter the number of the bouldering area you would like to search:".colorize(:cyan)
     puts "You can enter:".colorize(:cyan)
-    puts "1. Boone, NC"
-    puts "2. Grayson Highlands, VA"
-    puts "3. Horse Pens 40, AL"
-    puts "4. Rocktown, GA"
-    puts "5. Rumbling Bald, NC"
-    puts "6. Stone Fort (LRC), TN"
+
+    SEARCH_LINKS.each.with_index(1) do |location, index|
+      puts "#{index}. #{location[:location]}"
+    end
+    # puts "1. Boone, NC"
+    # puts "2. Grayson Highlands, VA"
+    # puts "3. Horse Pens 40, AL"
+    # puts "4. Rocktown, GA"
+    # puts "5. Rumbling Bald, NC"
+    # puts "6. Stone Fort (LRC), TN"
     self.location_input = gets.strip
 
-    if ["1", "2", "3", "4", "5", "6"].include?(@location_input)
+    location = SEARCH_LINKS[@location_input.to_i - 1]
+
+    if location
       SeClimbingVideos::Scraper.new.make_videos(SeClimbingVideos::CLI::SEARCH_LINKS[@location_input][:link], SeClimbingVideos::CLI::SEARCH_LINKS[@location_input][:location])
 
     elsif @location_input =="exit"

@@ -6,7 +6,9 @@ class SeClimbingVideos::Video
 
   def self.new_from_youtube_list(video, location)
     self.new(
-      video.search("a.yt-uix-tile-link").attr("title").text, video.search("div.yt-lockup-byline").text, video.search("span.accessible-description").text.gsub(" - Duration: ", "").gsub(".", ""), ("https://www.youtube.com" +  video.search("a.yt-uix-tile-link").attr("href").value), location
+      video.search("a.yt-uix-tile-link").attr("title").text, video.search("div.yt-lockup-byline").text, video.search("span.accessible-description").text.gsub(" - Duration: ", "").gsub(".", ""), 
+      ("https://www.youtube.com" +  video.search("a.yt-uix-tile-link").attr("href").value), 
+      location
     )
   end
 
